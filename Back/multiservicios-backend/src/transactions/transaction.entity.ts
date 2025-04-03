@@ -1,12 +1,12 @@
 // src/transactions/transaction.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { User } from '../users/user.entity';
-import { Categoria } from '../categories/category.entity';
+import { Category } from '../categories/category.entity';
 
 @Entity()
 export class Transaction {
   @PrimaryGeneratedColumn('uuid')
-  id: string; // Generado automáticamente
+  id: string;
 
   @Column()
   tipoTransaccion: 'Ingreso' | 'Egreso';
@@ -14,9 +14,10 @@ export class Transaction {
   @Column()
   nombreIngreso: string;
   
-  @ManyToOne(() => Categoria, (categoria) => categoria.transacciones, {
-    eager: true, // Opcional, si quieres que la categoría siempre se cargue
+  @ManyToOne(() => Category, (category) => category.transacciones, {
+    eager: true,
   })
+  category: Category; 
 
   @Column({ nullable: true })
   descripcionIngreso?: string;

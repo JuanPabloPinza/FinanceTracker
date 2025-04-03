@@ -13,6 +13,6 @@ export class Category {
   @Column({ nullable: true })
   descripcion?: string;
 
-  @OneToMany(() => Transaction, (transaction) => transaction.categoria)
+  @OneToMany(() => Transaction, (transaction) => transaction.category)
   transacciones: Transaction[];
 }
