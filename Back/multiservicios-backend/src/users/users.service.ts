@@ -17,11 +17,13 @@ export class UsersService {
   }
 
   async create(userData: Partial<User>): Promise<User> {
+    //Primero se genera un bycript
     const salt = await bcrypt.genSalt();
     userData.password = await bcrypt.hash(userData.password, salt);
     const newUser = this.usersRepository.create(userData);
     return this.usersRepository.save(newUser);
   }
+  
 
   // Otros métodos CRUD según necesidad...
 }
