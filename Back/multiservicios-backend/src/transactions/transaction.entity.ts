@@ -13,6 +13,7 @@ export class Transaction {
 
   @Column()
   nombreIngreso: string;
+  //TO-DO: Cambiar a nombreTransaccion
   
   @ManyToOne(() => Category, (category) => category.transacciones, {
     eager: true,
