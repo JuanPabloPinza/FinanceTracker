@@ -1,14 +1,18 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { DtoRegisterUser } from './dto/register-user.dto';
+import { Controller, Post, Body, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/auth/guards/roles.guard'; 
+import { Roles } from 'src/auth/guards/roles.decorator'; 
+import { User } from './user.entity';
 
 @Controller('users')
+// @UseGuards(AuthGuard('jwt'), RolesGuard)
 export class UsersController {
-    //Inicializo un constructor de mi servicio para poder usarlo
-    constructor(private readonly userService:UsersService){
-    }
-    @Post('register')
-    async registerUser(@Body() dtoRegisterUser:DtoRegisterUser){
-        return this.userService.create(dtoRegisterUser);
-    }
+  constructor(private usersService: UsersService) {}
+
+  @Post()
+  @Roles('Admin')
+  async create(@Body() user: Partial<User>) {
+    return this.usersService.create(user);
+  }
 }

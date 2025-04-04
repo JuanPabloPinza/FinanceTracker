@@ -1,28 +1,28 @@
 import { Injectable } from '@nestjs/common';
-import { Category } from './category.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Category } from './category.entity';
 
 @Injectable()
 export class CategoriesService {
-    //Me creo una instancia para inyectar la base de datos en base de Categoria
-    constructor(
-        @InjectRepository(Category)
-        private categoryRepository: Repository<Category>
-    ){}
-    
-    
-    async create(categoryData: Partial<Category>): Promise<Category>{
-        const newCategory = this.categoryRepository.create(categoryData);
-        return this.categoryRepository.save(newCategory);
+  constructor(
+    @InjectRepository(Category)
+    private categoriasRepository: Repository<Category>,
+  ) {}
+
+  async findAll(): Promise<Category[]> {
+    return this.categoriasRepository.find();
+  }
+
+  async findOne(id: number): Promise<Category> {
+    const category = await this.categoriasRepository.findOne({ where: { id } });
+    if (!category) {
+      throw new Error(`Category with id ${id} not found`);
     }
+    return category;
+  }
 
-
-    //   async create(userData: Partial<User>): Promise<User> {
-    //     //Primero se genera un bycript
-    //     const salt = await bcrypt.genSalt();
-    //     userData.password = await bcrypt.hash(userData.password, salt);
-    //     const newUser = this.usersRepository.create(userData);
-    //     return this.usersRepository.save(newUser);
-    //   }
+  async create(categoria: Partial<Category>): Promise<Category> {
+    return this.categoriasRepository.save(categoria);
+  }
 }

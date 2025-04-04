@@ -7,20 +7,24 @@ import { TransactionsModule } from './transactions/transactions.module';
 import { CategoriesModule } from './categories/categories.module';
 //Aumento los de typeorm
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { ClientsModule } from './clients/clients.module';
+import { ReportsModule } from './reports/reports.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',      
-      port: 5432,
-      username: 'postgres',
-      password: 'password',
-      database: 'multiservicios-backend',
-      autoLoadEntities: true, 
-      synchronize: true,     
+      host: process.env.DATABASE_HOST,
+      port: +(process.env.DATABASE_PORT || 5432),
+      username: process.env.DATABASE_USER,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
+      autoLoadEntities: true,
+      synchronize: true, // En producción usar migraciones
     })
-    , AuthModule, UsersModule, TransactionsModule, CategoriesModule],
+    , AuthModule, UsersModule, TransactionsModule, CategoriesModule, ClientsModule, ReportsModule],
   controllers: [AppController],
   providers: [AppService],
 })
