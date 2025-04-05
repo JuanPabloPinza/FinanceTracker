@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+:root {
+  --background-start: #d6dbdc; /* Equivalente a rgb(214, 219, 220) */
+  --background-end: #ffffff;   /* Equivalente a rgb(255, 255, 255) */
+  --foreground: #000000;       /* Equivalente a rgb(0, 0, 0) */
+}
+
+@theme inline {
+  --color-background: var(--background-start);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-start: #0a0a0a; /* Color oscuro similar al ejemplo nuevo */
+    --background-end: #1a1a1a;   /* Ligeramente más claro para el gradiente */
+    --foreground: #ededed;       /* Color claro para el texto */
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--background-end)
+    )
+    var(--background-start);
+  font-family: Arial, Helvetica, sans-serif;
+}
